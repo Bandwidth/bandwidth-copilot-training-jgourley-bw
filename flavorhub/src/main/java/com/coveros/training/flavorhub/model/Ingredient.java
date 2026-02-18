@@ -35,4 +35,14 @@ public class Ingredient {
         this.category = category;
         this.unit = unit;
     }
+
+
+    //New sub-DTO that represents an ingredient's molecular composition
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor 
+    public static class MolecularComposition {
+        private String chemicalFormula; // e.g., "C6H12O6" for glucose
+        private double molecularWeight; // in g/mol
+    }
 }
