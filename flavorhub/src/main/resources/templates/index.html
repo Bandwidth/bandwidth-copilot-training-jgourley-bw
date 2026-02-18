@@ -67,6 +67,226 @@
             margin-top: 30px;
         }
         
+        /* Search section styles */
+        .search-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .search-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        
+        .search-type-btn {
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .search-type-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .search-type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+        
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+        
+        .search-input-wrapper input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            display: none;
+        }
+        
+        .clear-search:hover {
+            color: #667eea;
+        }
+        
+        .search-results {
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .search-results.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .results-count {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .result-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-card .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .badge.recipe { background: #667eea; color: white; }
+        .badge.ingredient { background: #28a745; color: white; }
+        
+        .badge.easy { background: #d4edda; color: #155724; }
+        .badge.medium { background: #fff3cd; color: #856404; }
+        .badge.hard { background: #f8d7da; color: #721c24; }
+        
+        .result-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            display: none;
+        }
+        
+        .no-results.active {
+            display: block;
+        }
+        
+        .no-results h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-type-selector {
+                flex-wrap: wrap;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         .feature-card {
             background: #f8f9fa;
             padding: 25px;
@@ -186,6 +406,46 @@
                 <p>Learn to use GitHub Copilot by building features for this recipe recommendation application</p>
             </div>
             
+            <!-- Unified Search Section -->
+            <div class="search-section">
+                <h2>🔍 Search FlavorHub</h2>
+                
+                <div class="search-type-selector">
+                    <button class="search-type-btn active" data-type="all">All</button>
+                    <button class="search-type-btn" data-type="recipes">Recipes</button>
+                    <button class="search-type-btn" data-type="ingredients">Ingredients</button>
+                </div>
+                
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <input 
+                            type="text" 
+                            id="unifiedSearch" 
+                            placeholder="Search for recipes and ingredients..."
+                            autocomplete="off"
+                        >
+                        <button class="clear-search" id="clearSearch">✕</button>
+                    </div>
+                </div>
+                
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #667eea;">Searching...</p>
+                </div>
+                
+                <div class="no-results" id="noResults">
+                    <h3>No Results Found</h3>
+                    <p>Try a different search term or change your filter</p>
+                </div>
+                
+                <div class="search-results" id="searchResults">
+                    <div class="results-header">
+                        <span class="results-count" id="resultsCount">0 results</span>
+                    </div>
+                    <div class="results-grid" id="resultsGrid"></div>
+                </div>
+            </div>
+            
             <div class="features">
                 <div class="feature-card">
                     <h3>📦 Pantry Management</h3>
@@ -262,5 +522,180 @@
             <p>Access H2 Console at: <a href="/h2-console" target="_blank">/h2-console</a></p>
         </footer>
     </div>
+    
+    <script>
+        // Unified search functionality
+        const searchInput = document.getElementById('unifiedSearch');
+        const clearBtn = document.getElementById('clearSearch');
+        const searchResults = document.getElementById('searchResults');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsCount = document.getElementById('resultsCount');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const noResults = document.getElementById('noResults');
+        const searchTypeButtons = document.querySelectorAll('.search-type-btn');
+        
+        let currentSearchType = 'all';
+        let searchTimeout;
+        
+        // Search type selection
+        searchTypeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                searchTypeButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSearchType = btn.dataset.type;
+                
+                if (searchInput.value.trim()) {
+                    performSearch(searchInput.value.trim());
+                }
+            });
+        });
+        
+        // Search input handler with debounce
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            if (query.length > 0) {
+                clearBtn.style.display = 'block';
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => performSearch(query), 300);
+            } else {
+                clearBtn.style.display = 'none';
+                hideResults();
+            }
+        });
+        
+        // Clear search
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            hideResults();
+            searchInput.focus();
+        });
+        
+        // Perform unified search
+        async function performSearch(query) {
+            showLoading();
+            
+            try {
+                let results = [];
+                
+                if (currentSearchType === 'all' || currentSearchType === 'recipes') {
+                    const recipes = await searchRecipes(query);
+                    results = results.concat(recipes.map(item => ({ ...item, type: 'recipe' })));
+                }
+                
+                if (currentSearchType === 'all' || currentSearchType === 'ingredients') {
+                    const ingredients = await searchIngredients(query);
+                    results = results.concat(ingredients.map(item => ({ ...item, type: 'ingredient' })));
+                }
+                
+                displayResults(results);
+            } catch (error) {
+                console.error('Search error:', error);
+                showNoResults();
+            }
+        }
+        
+        // Search recipes
+        async function searchRecipes(query) {
+            const response = await fetch(`/api/recipes/search?query=${encodeURIComponent(query)}`);
+            if (!response.ok) throw new Error('Recipe search failed');
+            return await response.json();
+        }
+        
+        // Search ingredients
+        async function searchIngredients(query) {
+            const response = await fetch(`/api/ingredients/search?query=${encodeURIComponent(query)}`);
+            if (!response.ok) throw new Error('Ingredient search failed');
+            return await response.json();
+        }
+        
+        // Display search results
+        function displayResults(results) {
+            hideLoading();
+            
+            if (results.length === 0) {
+                showNoResults();
+                return;
+            }
+            
+            resultsCount.textContent = `${results.length} result${results.length !== 1 ? 's' : ''}`;
+            resultsGrid.innerHTML = '';
+            
+            results.forEach(result => {
+                const card = createResultCard(result);
+                resultsGrid.appendChild(card);
+            });
+            
+            searchResults.classList.add('active');
+            noResults.classList.remove('active');
+        }
+        
+        // Create result card based on type
+        function createResultCard(result) {
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            
+            if (result.type === 'recipe') {
+                card.innerHTML = `
+                    <h4>
+                        <span class="badge recipe">Recipe</span>
+                        ${result.name}
+                    </h4>
+                    <p>${result.description}</p>
+                    <div class="result-meta">
+                        <span class="badge ${result.difficultyLevel.toLowerCase()}">${result.difficultyLevel}</span>
+                        <span style="margin-left: 10px;">${result.cuisineType}</span>
+                        <span style="margin-left: 10px;">⏱️ ${result.prepTime + result.cookTime} min</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    window.location.href = '/recipes';
+                });
+            } else if (result.type === 'ingredient') {
+                card.innerHTML = `
+                    <h4>
+                        <span class="badge ingredient">Ingredient</span>
+                        ${result.name}
+                    </h4>
+                    <div class="result-meta">
+                        <span>Category: ${result.category}</span>
+                        <span style="margin-left: 10px;">Unit: ${result.unit}</span>
+                    </div>
+                `;
+            }
+            
+            return card;
+        }
+        
+        // UI state management
+        function showLoading() {
+            loadingSpinner.classList.add('active');
+            searchResults.classList.remove('active');
+            noResults.classList.remove('active');
+        }
+        
+        function hideLoading() {
+            loadingSpinner.classList.remove('active');
+        }
+        
+        function showNoResults() {
+            hideLoading();
+            noResults.classList.add('active');
+            searchResults.classList.remove('active');
+        }
+        
+        function hideResults() {
+            searchResults.classList.remove('active');
+            noResults.classList.remove('active');
+            loadingSpinner.classList.remove('active');
+        }
+        
+        // TODO: When pantry search API endpoint with filtering is implemented, add:
+        // - "Pantry" button to search-type-selector
+        // - searchPantry() function to call /api/pantry/search endpoint
+        // - Update performSearch() to include pantry results
+        // - Update placeholder text to include "pantry items"
+    </script>
 </body>
 </html>
