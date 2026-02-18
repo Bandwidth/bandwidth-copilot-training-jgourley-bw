@@ -5,9 +5,11 @@ import com.coveros.training.flavorhub.service.UserPantryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 
 /**
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/pantry")
 @RequiredArgsConstructor
+@Validated
 public class UserPantryController {
     
     private final UserPantryService userPantryService;
@@ -59,7 +62,8 @@ public class UserPantryController {
      * Delete a pantry item
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePantryItem(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePantryItem(
+            @PathVariable @Min(value = 1, message = "Pantry item ID must be positive") Long id) {
         userPantryService.deletePantryItem(id);
         return ResponseEntity.noContent().build();
     }

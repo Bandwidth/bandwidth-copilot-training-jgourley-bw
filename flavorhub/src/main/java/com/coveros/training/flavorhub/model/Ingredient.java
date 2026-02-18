@@ -2,6 +2,7 @@ package com.coveros.training.flavorhub.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,15 @@ public class Ingredient {
     private Long id;
     
     @NotBlank(message = "Ingredient name is required")
+    @Size(min = 2, max = 100, message = "Ingredient name must be between 2 and 100 characters")
     @Column(nullable = false, unique = true)
     private String name;
     
+    @Size(max = 50, message = "Category must not exceed 50 characters")
     @Column(name = "category")
     private String category; // e.g., "Dairy", "Vegetable", "Spice", "Meat"
     
+    @Size(max = 20, message = "Unit must not exceed 20 characters")
     @Column(name = "unit")
     private String unit; // e.g., "cups", "tablespoons", "grams"
     

@@ -5,9 +5,13 @@ import com.coveros.training.flavorhub.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -16,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/recipes")
 @RequiredArgsConstructor
+@Validated
 public class RecipeController {
     
     private final RecipeService recipeService;
@@ -26,7 +31,8 @@ public class RecipeController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Recipe> getRecipeById(@PathVariable Long id) {
+    public ResponseEntity<Recipe> getRecipeById(
+            @PathVariable @Min(value = 1, message = "Recipe ID must be positive") Long id) {
         return recipeService.getRecipeById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -37,7 +43,11 @@ public class RecipeController {
      * NOTE: This endpoint is complete and working
      */
     @GetMapping("/search")
-    public ResponseEntity<List<Recipe>> searchRecipes(@RequestParam String query) {
+    public ResponseEntity<List<Recipe>> searchRecipes(
+            @RequestParam 
+            @NotBlank(message = "Search query cannot be empty") 
+            @Size(min = 2, max = 100, message = "Search query must be between 2 and 100 characters") 
+            String query) {
         return ResponseEntity.ok(recipeService.searchRecipes(query));
     }
     
@@ -67,7 +77,7 @@ public class RecipeController {
     
     @PutMapping("/{id}")
     public ResponseEntity<Recipe> updateRecipe(
-            @PathVariable Long id, 
+            @PathVariable @Min(value = 1, message = "Recipe ID must be positive") Long id, 
             @Valid @RequestBody Recipe recipe) {
         return recipeService.getRecipeById(id)
                 .map(existing -> {
@@ -78,7 +88,8 @@ public class RecipeController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRecipe(
+            @PathVariable @Min(value = 1, message = "Recipe ID must be positive") Long id) {
         recipeService.deleteRecipe(id);
         return ResponseEntity.noContent().build();
     }

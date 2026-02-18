@@ -1,8 +1,9 @@
 package com.coveros.training.flavorhub.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,12 +32,15 @@ public class UserPantry {
     private Ingredient ingredient;
     
     @Column(name = "quantity")
-    @Min(value = 0, message = "Quantity must be positive")
+    @NotNull(message = "Quantity is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Quantity must be greater than 0")
     private Double quantity;
     
+    @Size(max = 20, message = "Unit must not exceed 20 characters")
     @Column(name = "unit")
     private String unit;
     
+    @Size(max = 200, message = "Notes must not exceed 200 characters")
     @Column(name = "notes")
     private String notes; // e.g., "expires soon", "in freezer"
     
