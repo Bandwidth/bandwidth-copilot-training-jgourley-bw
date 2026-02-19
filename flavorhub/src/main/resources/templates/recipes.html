@@ -201,34 +201,36 @@
         </header>
         
         <div class="content">
-            <div class="filters">
-                <div class="filter-group">
-                    <label for="difficulty">Difficulty</label>
-                    <select id="difficulty">
-                        <option value="">All Levels</option>
-                        <option value="Easy">Easy</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Hard">Hard</option>
-                    </select>
+            <form action="/recipes" method="get" id="filterForm">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="difficulty">Difficulty</label>
+                        <select id="difficulty" name="difficulty" onchange="document.getElementById('filterForm').submit()">
+                            <option value="">All Levels</option>
+                            <option value="Easy" th:selected="${param.difficulty != null && param.difficulty[0] == 'Easy'}">Easy</option>
+                            <option value="Medium" th:selected="${param.difficulty != null && param.difficulty[0] == 'Medium'}">Medium</option>
+                            <option value="Hard" th:selected="${param.difficulty != null && param.difficulty[0] == 'Hard'}">Hard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="cuisine">Cuisine</label>
+                        <select id="cuisine" name="cuisine" onchange="document.getElementById('filterForm').submit()">
+                            <option value="">All Cuisines</option>
+                            <option value="Italian" th:selected="${param.cuisine != null && param.cuisine[0] == 'Italian'}">Italian</option>
+                            <option value="Mexican" th:selected="${param.cuisine != null && param.cuisine[0] == 'Mexican'}">Mexican</option>
+                            <option value="Asian" th:selected="${param.cuisine != null && param.cuisine[0] == 'Asian'}">Asian</option>
+                            <option value="American" th:selected="${param.cuisine != null && param.cuisine[0] == 'American'}">American</option>
+                            <option value="Mediterranean" th:selected="${param.cuisine != null && param.cuisine[0] == 'Mediterranean'}">Mediterranean</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="search">Search</label>
+                        <input type="text" id="search" name="search" placeholder="Search recipes..." th:value="${param.search != null ? param.search[0] : ''}">
+                    </div>
                 </div>
-                
-                <div class="filter-group">
-                    <label for="cuisine">Cuisine</label>
-                    <select id="cuisine">
-                        <option value="">All Cuisines</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Mexican">Mexican</option>
-                        <option value="Asian">Asian</option>
-                        <option value="American">American</option>
-                        <option value="Mediterranean">Mediterranean</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="search">Search</label>
-                    <input type="text" id="search" placeholder="Search recipes...">
-                </div>
-            </div>
+            </form>
             
             <div class="recipes-grid" id="recipesGrid">
                 <!-- Recipe cards populated dynamically with Thymeleaf -->
