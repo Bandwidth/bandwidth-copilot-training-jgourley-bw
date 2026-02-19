@@ -1,5 +1,6 @@
 package com.coveros.training.flavorhub.service;
 
+import com.coveros.training.flavorhub.exception.ResourceNotFoundException;
 import com.coveros.training.flavorhub.model.Recipe;
 import com.coveros.training.flavorhub.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -371,38 +372,46 @@ class RecipeServiceTest {
     void testDeleteRecipe_WhenRecipeExists_ThenDeletesRecipe() {
         // Arrange
         Long recipeId = 1L;
+        when(recipeRepository.existsById(recipeId)).thenReturn(true);
         doNothing().when(recipeRepository).deleteById(recipeId);
         
         // Act
         recipeService.deleteRecipe(recipeId);
         
         // Assert
+        verify(recipeRepository, times(1)).existsById(recipeId);
         verify(recipeRepository, times(1)).deleteById(recipeId);
     }
     
     @Test
-    void testDeleteRecipe_WhenRecipeDoesNotExist_ThenStillCallsDelete() {
+    void testDeleteRecipe_WhenRecipeDoesNotExist_ThenThrowsException() {
         // Arrange
         Long nonExistentId = 999L;
-        doNothing().when(recipeRepository).deleteById(nonExistentId);
+        when(recipeRepository.existsById(nonExistentId)).thenReturn(false);
         
-        // Act
-        recipeService.deleteRecipe(nonExistentId);
+        // Act & Assert
+        ResourceNotFoundException exception = assertThrows(
+            ResourceNotFoundException.class,
+            () -> recipeService.deleteRecipe(nonExistentId)
+        );
         
-        // Assert
-        verify(recipeRepository, times(1)).deleteById(nonExistentId);
+        assertEquals("Recipe not found with id: 999", exception.getMessage());
+        verify(recipeRepository, times(1)).existsById(nonExistentId);
+        verify(recipeRepository, never()).deleteById(nonExistentId);
     }
     
     @Test
     void testDeleteRecipe_WhenMultipleRecipes_ThenDeletesCorrectOne() {
         // Arrange
         Long recipeId = 2L;
+        when(recipeRepository.existsById(recipeId)).thenReturn(true);
         doNothing().when(recipeRepository).deleteById(recipeId);
         
         // Act
         recipeService.deleteRecipe(recipeId);
         
         // Assert
+        verify(recipeRepository, times(1)).existsById(recipeId);
         verify(recipeRepository, times(1)).deleteById(recipeId);
         verify(recipeRepository, never()).deleteById(1L);
         verify(recipeRepository, never()).deleteById(3L);

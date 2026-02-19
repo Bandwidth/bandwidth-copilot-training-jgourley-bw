@@ -1,11 +1,13 @@
 package com.coveros.training.flavorhub.controller;
 
+import com.coveros.training.flavorhub.exception.ResourceNotFoundException;
 import com.coveros.training.flavorhub.model.Recipe;
 import com.coveros.training.flavorhub.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -70,5 +72,21 @@ public class HomeController {
         
         model.addAttribute("recipes", recipes);
         return "recipes";
+    }
+    
+    /**
+     * Display the recipe detail page for a specific recipe
+     * @param id The ID of the recipe to display
+     * @param model Model to hold recipe data
+     * @return the recipe-detail view template
+     * @throws ResourceNotFoundException if the recipe is not found
+     */
+    @GetMapping("/recipes/{id}")
+    public String recipeDetail(@PathVariable Long id, Model model) {
+        Recipe recipe = recipeService.getRecipeById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recipe not found with id: " + id));
+        
+        model.addAttribute("recipe", recipe);
+        return "recipe-detail";
     }
 }

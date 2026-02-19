@@ -92,6 +92,22 @@ public class GlobalExceptionHandler {
     }
     
     /**
+     * Handle resource not found exceptions
+     */
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Map<String, Object>> handleResourceNotFound(
+            ResourceNotFoundException ex) {
+        Map<String, Object> response = new HashMap<>();
+        
+        response.put("status", HttpStatus.NOT_FOUND.value());
+        response.put("error", "Not Found");
+        response.put("message", ex.getMessage());
+        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+    
+    /**
      * Handle illegal argument exceptions from business logic
      */
     @ExceptionHandler(IllegalArgumentException.class)
