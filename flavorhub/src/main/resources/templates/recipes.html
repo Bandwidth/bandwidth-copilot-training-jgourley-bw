@@ -231,8 +231,51 @@
             </div>
             
             <div class="recipes-grid" id="recipesGrid">
-                <!-- TODO: Populate recipes dynamically from API -->
-                <div class="no-recipes">
+                <!-- Recipe cards populated dynamically with Thymeleaf -->
+                <div th:each="recipe : ${recipes}" class="recipe-card">
+                    <div class="recipe-header">
+                        <h3 th:text="${recipe.name}">Recipe Name</h3>
+                        <span class="recipe-cuisine" th:text="${recipe.cuisineType}">Cuisine Type</span>
+                    </div>
+                    
+                    <!-- Recipe image (if available) -->
+                    <div th:if="${recipe.imageUrl}" style="width: 100%; height: 200px; overflow: hidden;">
+                        <img th:src="${recipe.imageUrl}" 
+                             th:alt="${recipe.name}" 
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    
+                    <div class="recipe-body">
+                        <!-- Recipe metadata: prep time, cook time -->
+                        <div class="recipe-meta">
+                            <span>⏱️ Prep: <span th:text="${recipe.prepTime}">0</span> min</span>
+                            <span>🔥 Cook: <span th:text="${recipe.cookTime}">0</span> min</span>
+                        </div>
+                        
+                        <!-- Recipe description -->
+                        <p class="recipe-description" th:text="${recipe.description}">
+                            Recipe description goes here...
+                        </p>
+                        
+                        <!-- Difficulty badge with conditional styling -->
+                        <div style="margin-bottom: 15px;">
+                            <span class="difficulty" 
+                                  th:classappend="${recipe.difficultyLevel?.toLowerCase()}"
+                                  th:text="${recipe.difficultyLevel}">Easy</span>
+                        </div>
+                        
+                        <!-- Recipe footer with servings and action button -->
+                        <div class="recipe-footer">
+                            <span class="servings">
+                                🍽️ Serves <span th:text="${recipe.servings}">4</span>
+                            </span>
+                            <a th:href="@{/recipes/{id}(id=${recipe.id})}" class="view-recipe">View Recipe</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Show "No Recipes Found" message only when list is empty -->
+                <div th:if="${recipes == null || recipes.isEmpty()}" class="no-recipes">
                     <h2>No Recipes Found</h2>
                     <p>Try adjusting your filters or check back later!</p>
                 </div>
